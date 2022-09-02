@@ -89,6 +89,7 @@ public class PalindromeVerifier {
                         updatePalindromeCacheStore(firstChar,input);
                     }
                 }
+                return "Hello"+userName+" "+input+" "+"is a palindrome";
             }else{
                 if(null != nonPalindromeCache){
                     List cacheList = nonPalindromeCache.get(firstChar);
@@ -101,10 +102,9 @@ public class PalindromeVerifier {
                         updateNonPalindromeCacheStore(firstChar,input);
                     }
                 }
+                return "Hello"+userName+" "+input+" "+"is not a palindrome";
             }
-
         }
-        return "Hello from RESTEasy Reactive";
     }
 
     private void updatePalindromeCacheStore(char key,String input){
