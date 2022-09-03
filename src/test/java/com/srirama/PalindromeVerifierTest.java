@@ -15,7 +15,7 @@ public class PalindromeVerifierTest {
                 .when().get("/palindrome/sriram/abcba")
                 .then()
                 .statusCode(200)
-                .body(is("Hellosriram ABCBA is a palindrome"));
+                .body(is("Hello sriram ABCBA is a palindrome"));
     }
     @Test
     public void testCacheUpdate() {
@@ -23,7 +23,7 @@ public class PalindromeVerifierTest {
                 .when().get("/palindrome/sriram/ahddha")
                 .then()
                 .statusCode(200)
-                .body(is("Hellosriram AHDDHA is a palindrome"));
+                .body(is("Hello sriram AHDDHA is a palindrome"));
     }
     @Test
     public void testNonPalindrome() {
@@ -31,7 +31,7 @@ public class PalindromeVerifierTest {
                 .when().get("/palindrome/sriram/abrfhh")
                 .then()
                 .statusCode(200)
-                .body(is("Hellosriram ABRFHH is not a palindrome"));
+                .body(is("Hello sriram ABRFHH is not a palindrome"));
     }
     @Test
     public void testWithNumbers() {
