@@ -15,12 +15,17 @@ import java.util.concurrent.CompletableFuture;
 
 @Path("/palindrome")
 public class PalindromeVerifier {
+    //  calling the factory method to get the datastore reference.
     private static DataStore ds = DataStoreFactory.getFileDataStore();
+    //map to maintain a cache of palindromes
     private static  Map<Character, List<String>> palindromeCache = null;
+    //map to maintain a cache of non palindromes
     private static  Map<Character, List<String>> nonPalindromeCache = null;
+    //regex patterns to invallidate inputs with a nummber or space
     private String[] invalidInputs = {"/^S+$/", ".*[0-9].*"};
 
     static{
+        //load the cache from the persistent data store
         loadCache();
     }
     private static void loadCache(){
@@ -35,11 +40,14 @@ public class PalindromeVerifier {
             content = @Content(mediaType = "text/plain")))
     public String isPalindrome(@PathParam("userName") String userName, @PathParam("input")  String input) {
         boolean isPalindrome = false;
+        //validate the input first
         if(validateInput(input)){
             return "Invalid Input.Please enter a valid input";
         }else{
+            //convert the input to upper case as case is insignificant for this flow
             input = input.toUpperCase();
             char firstChar = input.charAt(0);
+            //if the input is found in the palindrome cache, just send the response
             if(null != palindromeCache){
                 List cacheList = palindromeCache.get(firstChar);
                 if(null != cacheList){
@@ -48,6 +56,7 @@ public class PalindromeVerifier {
                     }
                 }
             }
+            //if the input is found in the non palindrome cache, just send the response
             if(null != nonPalindromeCache){
                 List cacheList = nonPalindromeCache.get(firstChar);
                 if(null != cacheList){
@@ -56,7 +65,9 @@ public class PalindromeVerifier {
                     }
                 }
             }
+            //if the input is not found in the cache, check for palindrome
             isPalindrome = checkPalindrome(input);
+            //update the cache and persistent store
             if(isPalindrome){
                 ds.updateCacheAndStore(firstChar,input,true);
                 return sendResponse(userName,input,true);

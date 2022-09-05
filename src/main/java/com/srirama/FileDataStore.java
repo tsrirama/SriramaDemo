@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+
 public class FileDataStore implements DataStore{
 
     private static FileDataStore fileDataStore = null;
@@ -50,6 +52,7 @@ public class FileDataStore implements DataStore{
 
     }
     private void loadMapFromFile(BufferedReader file,Map<Character, List<String>> map){
+        //make a map to load cache in memory from a file
         String cacheLine;
         char key;
         String value;
@@ -92,8 +95,13 @@ public class FileDataStore implements DataStore{
                 map = nonPalindromeMap;
                 file=nonPalindromeFile;
             }
+            //update in memory cache
             updateCache(key,value,map);
+            //make an asynchronous call to update the persistent store of cache
+        CompletableFuture.runAsync(() -> {
             updateStore(key,value,file);
+        });
+
 
     }
     private void updateCache(Character key,String value,Map<Character, List<String>> map){
