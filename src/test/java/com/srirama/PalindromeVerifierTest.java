@@ -49,5 +49,34 @@ public class PalindromeVerifierTest {
                 .statusCode(200)
                 .body(is("Invalid Input.Please enter a valid input"));
     }
+    @Test
+    public void testValidateInputWithNumbers() {
+       PalindromeVerifier pv = new PalindromeVerifier();
+       boolean  result = pv.validateInput("ds12abc");
+       assert(result);
+
+    }
+
+    @Test
+    public void testValidateInputWithSpaces() {
+        PalindromeVerifier pv = new PalindromeVerifier();
+        boolean  result = pv.validateInput("abc cba");
+        assert(result);
+    }
+
+    @Test
+    public void testCheckPalindrome() {
+        PalindromeVerifier pv = new PalindromeVerifier();
+        boolean  result = pv.checkPalindrome("abccba");
+        assert(result);
+    }
+
+    @Test
+    public void testCheckPalindromeFalse() {
+        PalindromeVerifier pv = new PalindromeVerifier();
+        boolean  result = pv.checkPalindrome("abccdsba");
+        assert(!result);
+    }
+
 
 }

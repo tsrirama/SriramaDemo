@@ -18,7 +18,7 @@ public class PalindromeVerifier {
     private static DataStore ds = DataStoreFactory.getFileDataStore();
     private static  Map<Character, List<String>> palindromeCache = null;
     private static  Map<Character, List<String>> nonPalindromeCache = null;
-    private String[] invalidInputs = {"/^$|\\s+/", ".*[0-9].*"};
+    private String[] invalidInputs = {"/^S+$/", ".*[0-9].*"};
 
     static{
         loadCache();
@@ -75,12 +75,12 @@ public class PalindromeVerifier {
         if(isPalindrome)
             message.append(" is a ");
         else
-            message.append("is not a ");
+            message.append(" is not a ");
         message.append("palindrome");
         return message.toString();
     }
 
-    private boolean checkPalindrome(String input){
+    boolean checkPalindrome(String input){
         char[] chars = input.toCharArray();
         int length = chars.length;
         int index1=0;
@@ -93,7 +93,7 @@ public class PalindromeVerifier {
         }
         return true;
     }
-    private boolean validateInput(String input){
+    boolean validateInput(String input){
         for (String s : invalidInputs) {
             if(input.matches(s)){
                 return true;
